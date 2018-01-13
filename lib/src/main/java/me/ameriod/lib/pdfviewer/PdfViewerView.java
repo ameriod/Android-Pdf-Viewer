@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * View to display a PDF file using the {@link PdfRenderer}
+ * View to display a PDF file using the {@link PdfRenderer}, {@link ViewPager} and {@link PhotoView}
  * <p>
  * Created by parker on 1/12/18.
  */
@@ -35,6 +35,7 @@ public class PdfViewerView extends ViewPager {
     public PdfViewerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
 
     /**
      * Uses the {@link ParcelFileDescriptor} directly, see {@link PdfRenderer(ParcelFileDescriptor)}
@@ -51,6 +52,19 @@ public class PdfViewerView extends ViewPager {
             throw new RuntimeException(e);
         }
         setAdapter(new PdfAdapter(getContext(), pdfRender));
+    }
+
+    /**
+     * Sets the pdf with the file uses {@link #setPdf(ParcelFileDescriptor)} internally
+     *
+     * @param file of the pdf to load
+     */
+    public void setPdf(@NonNull File file) {
+        try {
+            setPdf(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -74,7 +88,7 @@ public class PdfViewerView extends ViewPager {
                 asset.close();
                 output.close();
             }
-            setPdf(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY));
+            setPdf(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -95,16 +109,22 @@ public class PdfViewerView extends ViewPager {
                 bos.flush();
                 bos.close();
             }
-            setPdf(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY));
+            setPdf(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * @return The current page count
+     */
     public int getPageCount() {
         return pdfRender == null ? 0 : pdfRender.getPageCount();
     }
 
+    /**
+     * @return The current page via {@link #getCurrentItem()}
+     */
     public int getCurrentPage() {
         return getCurrentItem();
     }
