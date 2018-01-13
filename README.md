@@ -3,7 +3,7 @@ Android Pdf Viewer
 
 [![](https://jitpack.io/v/ameriod/Android-Pdf-Viewer.svg)](https://jitpack.io/#ameriod/Android-Pdf-Viewer)
 
-A simple library that wraps the Android's `PdfRenderer`, `ViewPager` to swipe between pages and the [https://github.com/chrisbanes/PhotoView](PhotoViewer) for pinch and zoom support.
+A simple library that wraps the Android's `PdfRenderer`, `ViewPager` to swipe between pages and the [PhotoViewer](https://github.com/chrisbanes/PhotoView) for pinch and zoom support.
 
 Dependency
 ----------
